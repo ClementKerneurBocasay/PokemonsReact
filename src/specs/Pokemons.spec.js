@@ -11,9 +11,12 @@ import {
   listOfPokemonsRetrieved
 } from '../core/pokemons'
 
-const buildMyStoreWithPokemons = pokemons => {
+const buildMyStoreWithPokemons = (pokemons, latency) => {
   const api = {
-    getListOfPokemons: async () => pokemons
+    getListOfPokemons: async () => {
+      await new Promise(res => setTimeout(res, latency))
+      return pokemons
+    }
   }
 
   return buildMyStore({ api })
@@ -87,6 +90,8 @@ describe('Feature Pokemons', () => {
         aPokemon('pikachu'),
         aPokemon('dracofeu')
       ])
+
+      expect(isLoadinglistOfPokemonsNames(store.getState())).toEqual(false)
     })
 
     it('with one pokemons', async () => {
@@ -99,6 +104,16 @@ describe('Feature Pokemons', () => {
       expect(listOfPokemonsNames(store.getState())).toEqual([
         aPokemon('pikachu')
       ])
+    })
+
+    it('with latency and one pokemon', async () => {
+      const store = buildMyStoreWithPokemons([
+        aPokemon('pikachu')
+      ], 200)
+
+      store.dispatch(retrieveListOfPokemonsNames())
+
+      expect(isLoadinglistOfPokemonsNames(store.getState())).toEqual(true)
     })
   })
 })

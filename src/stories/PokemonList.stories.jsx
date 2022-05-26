@@ -1,17 +1,5 @@
 import React from 'react';
-
-const PokemonsList = ({ isLoading, pokemons }) => {
-
-  if(isLoading)
-    return <p>Loading ...</p>
-
-  if(pokemons?.length)
-    return <ul>
-      {pokemons.map(pokemon => <li>{pokemon.name}</li>)}
-    </ul>
-
-  return <p>Pas de pokemons dans la liste</p>
-}
+import PokemonsList from '../ui/PokemonsList'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

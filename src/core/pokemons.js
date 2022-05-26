@@ -48,6 +48,8 @@ const isLoadinglistOfPokemonsNames = events => {
 
 const retrieveListOfPokemonsNames = () => async (dispatch, _, { api }) => {
 
+  dispatch(retrieveListOfPokemons())
+
   const response = await api.getListOfPokemons()
 
   dispatch({
